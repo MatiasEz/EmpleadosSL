@@ -69,6 +69,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
         getUserDataAndContinue()
+      self.locationManager.startUpdatingLocation()
     }
     
     func backViewController () -> UIViewController?
@@ -245,8 +246,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.present(alert, animated: true, completion: nil)
     }
    
-   func  continueWithauthorization() {      PKHUD.sharedHUD.contentView = PKHUDProgressView()
+   func  continueWithAuthorization() {
+      self.locationManager.startUpdatingLocation()
+      PKHUD.sharedHUD.contentView = PKHUDProgressView()
       PKHUD.sharedHUD.show()
+      
+      guard let location = self.locationManager.location else {
+         self.displayError(message: "No pudimos encontrar tu ubicación, intenta moverte a un espacio abierto.")
+         return;
+      }
       
       guard let userId = Auth.auth().currentUser?.uid else {
          self.displayError(message: "Hubo un problema con tu usuario, por favor deslogueate y vuelve a empezar")
@@ -265,7 +273,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
       
       let newTimestamp = Int (NSDate().timeIntervalSince1970)
       
-      let map = ["state":newString,"timestamp":newTimestamp] as [AnyHashable : Any]
+      let latitude = location.coordinate.latitude
+      let longitude = location.coordinate.longitude
+      
+      
+      let map = ["state":newString,"timestamp":newTimestamp,"longitude":longitude,"latitude":latitude] as [AnyHashable : Any]
       self.userItemList.append(map as! [String : Any])
       self.userItemList = self.userItemList.sorted(by: self.sorterForMap)
       self.ref.child("Users").child(userId).child("registros").setValue(self.userItemList)
@@ -291,7 +303,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
    
    func continueWithCheck() {
       if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse)  {
-         self.continueWithauthorization()
+         self.continueWithAuthorization()
       } else {
          self.blockUser()
       }
