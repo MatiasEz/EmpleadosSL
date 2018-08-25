@@ -11,8 +11,9 @@ import FirebaseAuth
 import FirebaseDatabase
 import PKHUD
 import AVFoundation
+import CoreLocation
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     
@@ -26,6 +27,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
    var firstName : String? = nil
    var lastName : String? = nil
    var nickname : String? = nil
+   
+   let locationManager = CLLocationManager()
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var underline: UIView!
@@ -40,6 +43,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         navigationController?.navigationBar.barTintColor = UIColor.black
         self.navigationItem.setHidesBackButton(true, animated:false);
+      
+      
+      
     }
 
 
@@ -56,6 +62,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             firstTime = false;
             return
         }
+      
         
         self.tableView.backgroundColor = UIColor.clear
         
@@ -237,8 +244,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
       
         self.present(alert, animated: true, completion: nil)
     }
-    
-    @IBAction func newEventButtonPressed(_ sender: Any) {
+   
+   func  continueWithauthorization() {      PKHUD.sharedHUD.contentView = PKHUDProgressView()
+      PKHUD.sharedHUD.show()
       
       guard let userId = Auth.auth().currentUser?.uid else {
          self.displayError(message: "Hubo un problema con tu usuario, por favor deslogueate y vuelve a empezar")
@@ -262,7 +270,33 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
       self.userItemList = self.userItemList.sorted(by: self.sorterForMap)
       self.ref.child("Users").child(userId).child("registros").setValue(self.userItemList)
       self.getUserDataAndContinue()
-    }
+   }
+   
+   func blockUser () {
+      self.displayError(message: "Debes dar permisos de ubicación")
+   }
+    
+    @IBAction func newEventButtonPressed(_ sender: Any) {
+      self.locationManager.delegate = self
+      if (CLLocationManager.authorizationStatus() == .notDetermined) {
+         self.locationManager.requestWhenInUseAuthorization()
+      } else {
+         self.continueWithCheck()
+      }
+   }
+   
+   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+      self.continueWithCheck()
+   }
+   
+   func continueWithCheck() {
+      if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse)  {
+         self.continueWithauthorization()
+      } else {
+         self.blockUser()
+      }
+   }
+    
    
    func sorterForMap(this:[String:Any], that:[String:Any]) -> Bool {
       let monto1 = this ["timestamp"] as! Int

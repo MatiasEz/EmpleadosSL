@@ -24,6 +24,7 @@
 		98DE0FF82027ACDD00DB1A7C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98DE0FF72027ACDD00DB1A7C /* QuartzCore.framework */; };
 		98DE0FFA2027B71100DB1A7C /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DE0FF92027B71100DB1A7C /* HomeTableViewCell.swift */; };
 		F76C5C0D20BB67D0005EBCD3 /* PermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C5C0C20BB67D0005EBCD3 /* PermissionViewController.swift */; };
+		F795BAF12131F39F00872F79 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F795BAF02131F39F00872F79 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		B57A9B50AC19E9969C1742D4 /* SirioLibanesApp.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SirioLibanesApp.podspec; path = ../SirioLibanesApp.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B68CCAAA50F3F52468FB4528 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F76C5C0C20BB67D0005EBCD3 /* PermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionViewController.swift; sourceTree = "<group>"; };
+		F795BAF02131F39F00872F79 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FA6828CE2CA5E5CE571FF3E7 /* Pods_SirioLibanesApp_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SirioLibanesApp_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F795BAF12131F39F00872F79 /* CoreLocation.framework in Frameworks */,
 				98DE0FF82027ACDD00DB1A7C /* QuartzCore.framework in Frameworks */,
 				0E27479390BBCC8D09178D57 /* Pods_SirioLibanesApp_Example.framework in Frameworks */,
 			);
@@ -90,6 +93,7 @@
 		400210CBA061DA793C839760 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F795BAF02131F39F00872F79 /* CoreLocation.framework */,
 				98DE0FF72027ACDD00DB1A7C /* QuartzCore.framework */,
 				6259837E4FD150DFA86EAD41 /* Pods_SirioLibanesApp_Example.framework */,
 				FA6828CE2CA5E5CE571FF3E7 /* Pods_SirioLibanesApp_Tests.framework */,
